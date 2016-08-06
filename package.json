@@ -14,5 +14,8 @@
     "webhook"
   ],
   "author": "Bishal Timilsina",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "nodemailer": "^2.5.0"
+  }
 }
