@@ -14,10 +14,10 @@ const nodemailer=require('nodemailer');
 const spawn=require('child_process').spawn;
 const os=require('os');
 
-/*
-Auto update config
-@type {Boolean} autoUpdate  Default is false
-@type {Number} duration Set duration of autoUpdate in milliseconds default is 5 hours
+/**
+*Auto update config
+*@type {Boolean} autoUpdate  Default is false
+*@type {Number} duration Set duration of autoUpdate in milliseconds default is 5 hours
 */
 
 var update={
@@ -25,10 +25,10 @@ var update={
 	duration:60*1000*60*5
 };
 
-/*
-config for mail recipents and sender
-@type {Array} from String array of sender
-@type {Array} to String array of recipents
+/**
+*config for mail recipents and sender
+*@type {Array} from String array of sender
+*@type {Array} to String array of recipents
 */
 var mailOptions={
 	from:['"Bishal Timilsina" <throwaway@gmail.com>'],
@@ -36,12 +36,12 @@ var mailOptions={
 };
 
 
-/*
-Config for mail server
-TODO: Add smpt and other config support
-@type {String} service Service defined by nodemailer for popular services
-@type {String} user Username of email
-@type {String} pass Password of email
+/**
+*Config for mail server
+*TODO: Add smpt and other config support
+*@type {String} service Service defined by nodemailer for popular services
+*@type {String} user Username of email
+*@type {String} pass Password of email
 */
 var mailConfig={
 	service:"Gmail",
@@ -51,10 +51,10 @@ var mailConfig={
 	}
 };
 
-/*
-Git url
-@type {String} origin Git remote repository url uses origin if none specified
-@type {String} branch Branch name of remote repository
+/**
+*Git url
+*@type {String} origin Git remote repository url uses origin if none specified
+*@type {String} branch Branch name of remote repository
 */
 var repo={
 	origin:"origin",
@@ -62,14 +62,14 @@ var repo={
 };
 
 
-/*
-Used to send log on email
-@type {String} serverLog Server log message on command execution, change to add headers to it
+/**
+*Used to send log on email
+*@type {String} serverLog Server log message on command execution, change to add headers to it
 */
 var serverLog='';
 
-/*
-Deploy the git updates
+/**
+*Deploy the git updates
 */
 function deploy(){
 
@@ -117,20 +117,20 @@ function deploy(){
 
 }
 
-/*
-Log buffer data to console and store on serverLog for mail body
-@params {Buffer|String} data
+/**
+*Log buffer data to console and store on serverLog for mail body
+*@params {Buffer|String} data
 */
 function out(data){
 	console.log(`${data}`);
 	serverLog+=data
 }
 
-/*
-Send mail to user about deployment
-@param {String} subject Subject of mail
-@param {String} message Message of mail body
-@param {sendMailCallback} callback Error as first param and response data as second param
+/**
+*Send mail to user about deployment
+*@param {String} subject Subject of mail
+*@param {String} message Message of mail body
+*@param {sendMailCallback} callback Error as first param and response data as second param
 */
 function sendMail(subject,message,callback){
 	
@@ -147,9 +147,9 @@ function sendMail(subject,message,callback){
 	});
 }
 
-/*
-Auto update according to set duration
-@param {Integer} duration Duration of interval in milliseconds
+/**
+*Auto update according to set duration
+*@param {Integer} duration Duration of interval in milliseconds
 */
 function autoUpdate(duration){
 	setInterval(function(){
