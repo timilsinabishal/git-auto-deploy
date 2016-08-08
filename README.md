@@ -9,13 +9,43 @@ git-auto-deploy  is the npm module for automatic deploying of node server.It lau
 Add a route for webhook in your framework.  
 Example for express
 
-    var gad=require('git-auto-deploy');
+    var gad = require('git-auto-deploy');
     .............................
     .............................
     app.post('/webhook',function(req,res){
-      var secret="yoursecretkey";
-      if(req.body.secret==secret){
+      var secret = "yoursecretkey";
+      if(req.body.secret == secret){
         gad.deploy();
       }
     }
     ............................
+
+Example to setup mail address for automatic mail of deploy logs
+    
+    ----------------------------
+    gad.mailOptions={
+      from:['"Sender Name" <sender@email.com>'],
+      to:['"Receiver Name" <receiver@mail.com>']
+    };
+
+    gad.mailConfig={
+      service:"Gmail",
+      auth:{
+        user:"username@gmail.com",
+        pass:"password"
+      }
+    };
+
+This library uses git pull origin master as default to pull updates, to setup your own remote and branch use:
+
+    ----------------------------
+    gad.repo={
+      origin:"remote url",
+      branch:"branch name"
+    };
+
+For auto update after specified duration use:
+
+    setInterval(function(){
+      gad.deploy()
+    },duration);
