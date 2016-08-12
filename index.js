@@ -22,56 +22,34 @@ const os=require('os');
 var serverLog='';
 
 /**
+*Log buffer data to console and store on serverLog for mail body
+*@param {Buffer|String} data
+*/
+function out(data){
+	console.log(`${data}`);
+	serverLog+=data
+}
+
+/**
  * Module exports.
  * @public
  */
-module.exports = function() {
-  return new deploy();
-}
 
 /**
 *Deploy the git updates
 */
-function deploy(){
+module.exports.deploy=function(repo,mail){
 
-	var self = this;
 
 	/**
 	*Git url
 	*@type {String} origin Git remote repository url uses origin if none specified
 	*@type {String} branch Branch name of remote repository
 	*/
-	var repo={
+	var repo=repo || {
 		origin:"origin",
 		branch:"master"
 	};
-
-	/**
-	*Example config for mail recipents and sender
-	*@type {Array} from String array of sender
-	*@type {Array} to String array of recipents
-	*/
-	var mailOptions={
-		from:['"Sender Name" <sender@email.com>'],
-		to:['"Receiver Name" <receiver@email.com>']
-	};
-
-
-	/**
-	*Config for mail server
-	*TODO: Add smpt and other config support
-	*@type {String} service Service defined by nodemailer for popular services
-	*@type {String} user Username of email
-	*@type {String} pass Password of email
-	*/
-	var mailConfig={
-		service:"Gmail",
-		auth:{
-			user:"username@gmail.com",
-			pass:"password"
-		}
-	};
-
 
 	//get the execution path of program
 	console.log(`Execution path: ${process.cwd()}`);
@@ -102,7 +80,7 @@ function deploy(){
 		var subject="Auto deployment of server completed";
 
 
-		sendMail(subject,serverLog,function(err,info){
+		!mail || sendMail(subject,serverLog,function(err,info){
 			if(err) console.error(`Error sending mail.\n ${err}`);
 			else{
 				console.dir(info);
@@ -126,6 +104,8 @@ function deploy(){
 	*/
 	function sendMail(subject,message,callback){
 		
+		var mailOptions = mail.mailOptions;
+		var mailConfig = mail.mailConfig;
 		//Send mail to the owner about the updates
 		var transporter=nodemailer.createTransport(mailConfig);
 
@@ -141,23 +121,8 @@ function deploy(){
 
 }
 
-/**
-*Log buffer data to console and store on serverLog for mail body
-*@param {Buffer|String} data
-*/
-function out(data){
-	console.log(`${data}`);
-	serverLog+=data
-}
-
-
-/**
-*Auto update according to set duration
-*@param {Integer} duration Duration of interval in milliseconds
-*/
-deploy.prototype.autoUpdate = function(duration){
-	setInterval(function(){
-		console.log("Running auto update");
-		deploy();
-	},duration);
+// module.exports.createMail=
+module.exports.createMail=function(mailConfig,mailOptions){
+	
+	return {mailConfig:mailConfig,mailOptions:mailOptions};
 }

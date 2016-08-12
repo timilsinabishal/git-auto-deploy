@@ -20,15 +20,15 @@ Example for express
     }
     ............................
 
-Example to setup mail address for automatic mail of deploy logs
+Example to setup mail address for automatic mail of deploy logs and custom repository setup
     
     ----------------------------
-    gad.mailOptions={
+    var mailOptions={
       from:['"Sender Name" <sender@email.com>'],
       to:['"Receiver Name" <receiver@mail.com>']
     };
 
-    gad.mailConfig={
+    var mailConfig={
       service:"Gmail",
       auth:{
         user:"username@gmail.com",
@@ -36,13 +36,14 @@ Example to setup mail address for automatic mail of deploy logs
       }
     };
 
-This library uses git pull origin master as default to pull updates, to setup your own remote and branch use:
-
-    ----------------------------
-    gad.repo={
+    var repo={
       origin:"remote url",
       branch:"branch name"
     };
+
+    var mail=gad.createMail(mailConfig,mailOptions);
+    gad.deploy(repo,mail);
+
 
 For auto update after specified duration use:
 
