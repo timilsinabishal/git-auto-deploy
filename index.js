@@ -36,8 +36,10 @@ function out(data){
  */
 
 /**
-*Deploy the git updates
-*/
+ * Deploy the updates
+ * @param  {?Object} repo Repository information
+ * @param  {?Object} mail Mail configuration for nodemailer
+ */
 module.exports.deploy=function(repo,mail){
 
 
@@ -63,8 +65,8 @@ module.exports.deploy=function(repo,mail){
 	if(platform.indexOf("linux")!==-1){
 		var pull=spawn("./script.sh",[repo.origin,repo.branch],{cwd:`${__dirname}`});
 	//run batch file for windows
-	}else if(platform.indexOf("wind32")!==-1){
-		var pull=spawn("cmd",["/c","script.bat"],{cwd:`${__dirname}`});
+	}else if(platform.indexOf("win32")!==-1){
+		var pull=spawn("cmd",["/c","script.bat"],[repo.origin,repo.branch],{cwd:`${__dirname}`});
 	}else{
 		console.log("Operating system is not supported.");
 		return;
@@ -121,7 +123,12 @@ module.exports.deploy=function(repo,mail){
 
 }
 
-// module.exports.createMail=
+/**
+ * Mail config
+ * @param  {!Object} mailConfig  Configuration file for mail auth and service type
+ * @param  {!Object} mailOptions Options for sender,receiver
+ * @return {Object.<mailConfig,mailOptions}
+ */
 module.exports.createMail=function(mailConfig,mailOptions){
 	
 	return {mailConfig:mailConfig,mailOptions:mailOptions};
