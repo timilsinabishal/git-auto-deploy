@@ -82,17 +82,22 @@ module.exports.deploy=function(repo,mail){
 		var subject="Auto deployment of server completed";
 
 
-		!mail || sendMail(subject,serverLog,function(err,info){
-			if(err) console.error(`Error sending mail.\n ${err}`);
-			else{
-				console.dir(info);
-				console.log("Mail sent to webmaster");
-			}
-
+		if(mail === undefined) {
 			console.log(`Killing the server`);
-			process.exit(0);
-			
-		});
+				process.exit(0);
+		}
+		else
+			sendMail(subject,serverLog,function(err,info){
+				if(err) console.error(`Error sending mail.\n ${err}`);
+				else{
+					console.dir(info);
+					console.log("Mail sent to webmaster");
+				}
+	
+				console.log(`Killing the server`);
+				process.exit(0);
+				
+			});
 		
 	});
 
