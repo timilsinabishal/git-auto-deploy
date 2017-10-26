@@ -1,6 +1,6 @@
 {
-  "name": "node-auto-deploy",
-  "version": "1.0.5",
+  "name": "git-auto-deploy",
+  "version": "1.0.6",
   "description": "Auto pull and deploy your code from webhook",
   "main": "index.js",
   "scripts": {
